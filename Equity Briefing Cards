@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equity Briefing Cards - Meeting Prep</title>
+  <style>
+    :root {
+      --navy: #12355b;
+      --blue: #2f6f94;
+      --light-blue: #eaf3f8;
+      --light-gray: #f5f7fa;
+      --mid-gray: #64717d;
+      --line: #d7e0e7;
+      --text: #1e252b;
+      --white: #ffffff;
+      --green: #0f766e;
+      --red: #b42318;
+      --shadow: 0 12px 28px rgba(18, 53, 91, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f8fbfd 0%, #eef4f8 100%);
+      line-height: 1.45;
+    }
+
+    .shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 20px 44px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+
+    .title-block h1 {
+      margin: 0 0 6px;
+      color: var(--navy);
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+
+    .title-block p {
+      margin: 0;
+      color: var(--mid-gray);
+      font-size: 13px;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--mid-gray);
+      font-size: 12px;
+      white-space: nowrap;
+      box-shadow: 0 6px 18px rgba(18, 53, 91, 0.06);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 18px;
+      padding: 8px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(18, 53, 91, 0.07);
+    }
+
+    .tab-button {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--navy);
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      font-size: 14px;
+    }
+
+    .tab-button:hover {
+      background: var(--light-blue);
+      border-color: #c9dde8;
+    }
+
+    .tab-button.active {
+      color: var(--white);
+      background: var(--navy);
+      box-shadow: 0 8px 18px rgba(18, 53, 91, 0.22);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      display: none;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card.active { display: block; }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 22px 24px;
+      background: linear-gradient(135deg, var(--light-blue), #ffffff 78%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .card-header h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .ticker-chip {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--navy);
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .card-body {
+      padding: 22px 24px 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .row {
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff;
+    }
+
+    .row.important {
+      background: #fbfdff;
+      border-color: #c7dce8;
+    }
+
+    .label {
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .value {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--light-gray);
+    }
+
+    .metric-title {
+      color: var(--mid-gray);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .metric-value.positive { color: var(--green); }
+    .metric-value.negative { color: var(--red); }
+
+    aside {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 10px 24px rgba(18, 53, 91, 0.08);
+      padding: 18px;
+      position: sticky;
+      top: 18px;
+    }
+
+    aside h3 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 16px;
+    }
+
+    aside p, aside li {
+      font-size: 13px;
+      color: var(--mid-gray);
+    }
+
+    aside ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--mid-gray);
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
+    @media (max-width: 900px) {
+      header { flex-direction: column; }
+      .content-grid { grid-template-columns: 1fr; }
+      aside { position: static; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .shell { padding: 18px 12px 32px; }
+      .card-header { flex-direction: column; }
+      .metrics { grid-template-columns: 1fr; }
+      .tab-button { flex: 1 1 auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="title-block">
+        <h1>Equity Briefing Cards</h1>
+        <p>Internal meeting-prep draft. Plain-language stock cards with tabs by ticker.</p>
+      </div>
+      <div class="badge">Market data as of July 21, 2026 - verify before external use</div>
+    </header>
+
+    <nav class="tabs" aria-label="Ticker tabs">
+      <button class="tab-button active" data-tab="GEV">GEV</button>
+      <button class="tab-button" data-tab="IDXX">IDXX</button>
+      <button class="tab-button" data-tab="ANET">ANET</button>
+      <button class="tab-button" data-tab="P">P</button>
+      <button class="tab-button" data-tab="CTAS">CTAS</button>
+      <button class="tab-button" data-tab="LLY">LLY</button>
+    </nav>
+
+    <section class="content-grid">
+      <div>
+        <article class="card active" id="GEV">
+          <div class="card-header"><h2>GEV - GE Vernova</h2><span class="ticker-chip">GEV</span></div>
+          <div class="card-body">
+            <div class="metrics">
+              <div class="metric"><div class="metric-title">Sector</div><div class="metric-value">Industrials</div></div>
+              <div class="metric"><div class="metric-title">Price</div><div class="metric-value">$1,085.94</div></div>
+              <div class="metric"><div class="metric-title">Market cap</div><div class="metric-value">$291.8B</div></div>
+              <div class="metric"><div class="metric-title">YTD performance</div><div class="metric-value positive">+65.9%</div></div>
+            </div>
+            <div class="row"><div class="label">NTM valuation</div><div class="value">NTM P/E 58.6x; NTM EV/EBITDA ~70-75x; NTM EV/Rev ~6.1x.</div></div>
+            <div class="row"><div class="label">What they do</div><div class="value">GE Vernova provides equipment and services for power generation, electric grids, and renewable energy systems.</div></div>
+            <div class="row"><div class="label">How they make money</div><div class="value">Revenue comes primarily from gas power equipment and services, grid infrastructure, and wind power products.</div></div>
+            <div class="row important"><div class="label">WB research summary</div><div class="value">William Blair research frames GEV as a top power-sector idea, with turbines and electrification outweighing wind weakness. The latest note emphasizes record bookings, 2028 turbine capacity sold out, pricing power, and hyperscaler-driven electrification demand; key watch items are backlog conversion, capacity ramp, Prolec integration, and offshore wind/policy risk.</div></div>
+            <div class="row"><div class="label">Recent events</div><div class="value">Investor attention has focused on strong demand tied to grid modernization and power needs from AI-related data center growth. The company is scheduled to report Q2 2026 results on July 22, and expectations for earnings growth have been a major stock driver.</div></div>
+            <div class="row"><div class="label">Potential catalysts</div><div class="value">Upcoming earnings results and management commentary on orders, margins, and power-grid demand could influence the shares. Investors are also watching backlog growth and capital spending trends from utilities and large power users.</div></div>
+            <div class="row"><div class="label">Key risks</div><div class="value">Renewable energy markets remain cyclical and policy-sensitive. Execution issues in large infrastructure projects, slower order growth, or lower spending by utilities and industrial customers could pressure results.</div></div>
+          </div>
+        </article>
+
+        <article class="card" id="IDXX">
+          <div class="card-header"><h2>IDXX - IDEXX Laboratories</h2><span class="ticker-chip">IDXX</span></div>
+          <div class="card-body">
+            <div class="metrics">
+              <div class="metric"><div class="metric-title">Sector</div><div class="metric-value">Healthcare</div></div>
+              <div class="metric"><div class="metric-title">Price</div><div class="metric-value">$551.83</div></div>
+              <div class="metric"><div class="metric-title">Market cap</div><div class="metric-value">$43.5B</div></div>
+              <div class="metric"><div class="metric-title">YTD performance</div><div class="metric-value negative">-17.2%</div></div>
+            </div>
+            <div class="row"><div class="label">NTM valuation</div><div class="value">NTM P/E 37.8x; NTM EV/EBITDA 25.9x; NTM EV/Rev ~9.4x.</div></div>
+            <div class="row"><div class="label">What they do</div><div class="value">IDEXX develops diagnostic tests, instruments, software, and laboratory services primarily for veterinarians.</div></div>
+            <div class="row"><div class="label">How they make money</div><div class="value">Most revenue comes from recurring testing consumables, reference laboratory services, and veterinary software subscriptions.</div></div>
+            <div class="row important"><div class="label">WB research summary</div><div class="value">William Blair research highlights MultiCue Dx as a potentially meaningful next-generation veterinary diagnostics platform, potentially moving IDEXX into cartridge-based, multiplex point-of-care molecular testing. A separate note flags ongoing weakness in vet visit volumes, but says the trend is consistent with company guidance.</div></div>
+            <div class="row"><div class="label">Recent events</div><div class="value">Shares have lagged despite continued product launches and solid financial performance. Investors have been debating whether growth in companion-animal healthcare is slowing from exceptionally strong post-pandemic levels.</div></div>
+            <div class="row"><div class="label">Potential catalysts</div><div class="value">The company is scheduled to report Q2 results on August 4, 2026. New diagnostic products, increased adoption of the InVue platform, and updates at planned investor events could affect sentiment.</div></div>
+            <div class="row"><div class="label">Key risks</div><div class="value">Slower veterinary visits or reduced pet-owner spending could weigh on growth. International exposure creates currency-related risk, and the stock trades at a premium valuation relative to many healthcare peers.</div></div>
+          </div>
+        </article>
+
+        <article class="card" id="ANET">
+          <div class="card-header"><h2>ANET - Arista Networks</h2><span class="ticker-chip">ANET</span></div>
+          <div class="card-body">
+            <div class="metrics">
+              <div class="metric"><div class="metric-title">Sector</div><div class="metric-value">Technology</div></div>
+              <div class="metric"><div class="metric-title">Price</div><div class="metric-value">$175.04</div></div>
+              <div class="metric"><div class="metric-title">Market cap</div><div class="metric-value">$220.4B</div></div>
+              <div class="metric"><div class="metric-title">YTD performance</div><div class="metric-value positive">+33.6%</div></div>
+            </div>
+            <div class="row"><div class="label">NTM valuation</div><div class="value">NTM P/E ~44.5-46.5x; NTM EV/EBITDA ~37x; NTM EV/Rev 17.4x.</div></div>
+            <div class="row"><div class="label">What they do</div><div class="value">Arista sells networking hardware and software that connect data centers, cloud platforms, and AI infrastructure.</div></div>
+            <div class="row"><div class="label">How they make money</div><div class="value">Revenue comes mainly from high-performance network switches, routing products, software, and support services.</div></div>
+            <div class="row important"><div class="label">WB research summary</div><div class="value">William Blair research views Arista as a core AI networking beneficiary as Ethernet gains share across scale-out, scale-up, and scale-across domains. Notes also emphasize enterprise share gains, best-in-class networking products, expanding product deferred balance, and supply constraints as the near-term gating factor.</div></div>
+            <div class="row"><div class="label">Recent events</div><div class="value">Strong demand for AI-related networking infrastructure has supported the stock. The company recently introduced new AI networking products and security offerings while benefiting from continued cloud spending.</div></div>
+            <div class="row"><div class="label">Potential catalysts</div><div class="value">Q2 earnings on August 4, 2026 could provide updates on AI-network demand and large customer spending. Adoption of new 1.6-terabit networking products and additional enterprise wins are also being watched.</div></div>
+            <div class="row"><div class="label">Key risks</div><div class="value">Customer spending is concentrated among large cloud providers. Competition from larger networking vendors and any slowdown in AI infrastructure investment could affect growth expectations.</div></div>
+          </div>
+        </article>
+
+        <article class="card" id="P">
+          <div class="card-header"><h2>P - Pure Storage</h2><span class="ticker-chip">P</span></div>
+          <div class="card-body">
+            <div class="metrics">
+              <div class="metric"><div class="metric-title">Sector</div><div class="metric-value">Technology</div></div>
+              <div class="metric"><div class="metric-title">Price</div><div class="metric-value">$73.06</div></div>
+              <div class="metric"><div class="metric-title">Market cap</div><div class="metric-value">$24.3B</div></div>
+              <div class="metric"><div class="metric-title">YTD performance</div><div class="metric-value positive">+9.1%</div></div>
+            </div>
+            <div class="row"><div class="label">NTM valuation</div><div class="value">NTM P/E ~45-50x; NTM EV/EBITDA 43.8x; NTM EV/Rev 6.5x.</div></div>
+            <div class="row"><div class="label">What they do</div><div class="value">Pure Storage provides enterprise data-storage systems and software that help organizations manage and protect large amounts of data.</div></div>
+            <div class="row"><div class="label">How they make money</div><div class="value">Revenue comes from storage hardware, subscription software, cloud services, and support contracts.</div></div>
+            <div class="row important"><div class="label">WB research summary</div><div class="value">William Blair commentary describes Pure/Everpure as moving from storage vendor toward enterprise data platform. Research notes cite solid fourth-quarter beats, fiscal 2027 revenue guidance above expectations, accelerating enterprise demand, improving hyperscaler visibility, growing platform traction, and AI-driven storage demand; near-term margin pressure from component costs is the offset.</div></div>
+            <div class="row"><div class="label">Recent events</div><div class="value">Management has emphasized AI-related data infrastructure opportunities and introduced new data-management products. Recent results and product announcements have reinforced the company's positioning around AI workloads and cyber resilience.</div></div>
+            <div class="row"><div class="label">Potential catalysts</div><div class="value">Upcoming earnings and updates on AI-related demand trends could influence investor expectations. Adoption of newer subscription offerings and cloud-based data-management products could also be closely monitored.</div></div>
+            <div class="row"><div class="label">Key risks</div><div class="value">Enterprise technology spending can be cyclical and project-driven. Competition from larger storage vendors and slower-than-expected customer adoption of new offerings could pressure growth.</div></div>
+          </div>
+        </article>
+
+        <article class="card" id="CTAS">
+          <div class="card-header"><h2>CTAS - Cintas</h2><span class="ticker-chip">CTAS</span></div>
+          <div class="card-body">
+            <div class="metrics">
+              <div class="metric"><div class="metric-title">Sector</div><div class="metric-value">Industrials</div></div>
+              <div class="metric"><div class="metric-title">Price</div><div class="metric-value">$199.55</div></div>
+              <div class="metric"><div class="metric-title">Market cap</div><div class="metric-value">$79.8B</div></div>
+              <div class="metric"><div class="metric-title">YTD performance</div><div class="metric-value positive">+6.3%</div></div>
+            </div>
+            <div class="row"><div class="label">NTM valuation</div><div class="value">NTM P/E 37.5x; NTM EV/EBITDA ~24-25x; NTM EV/Rev ~6.7x.</div></div>
+            <div class="row"><div class="label">What they do</div><div class="value">Cintas supplies uniforms, facility products, safety services, and related business services to companies.</div></div>
+            <div class="row"><div class="label">How they make money</div><div class="value">Most revenue comes from recurring uniform rental and facility-services contracts, along with first-aid and safety offerings.</div></div>
+            <div class="row important"><div class="label">WB research summary</div><div class="value">William Blair research says Cintas delivered a strong fourth-quarter beat, with organic revenue growth and gross margin ahead of consensus. Follow-up notes emphasize a stronger-than-usual initial fiscal 2027 organic growth guide, room for EPS guidance to move higher, 30% incremental margin guidance, strong new-account growth, retention near record levels, and ongoing UniFirst transaction timing.</div></div>
+            <div class="row"><div class="label">Recent events</div><div class="value">The company recently reported record fiscal 2026 results and provided fiscal 2027 guidance above prior expectations. Strong margins and steady demand helped drive a favorable market reaction.</div></div>
+            <div class="row"><div class="label">Potential catalysts</div><div class="value">Investors will watch execution against fiscal 2027 revenue guidance and future quarterly earnings reports. Continued customer additions and margin expansion could also affect the stock.</div></div>
+            <div class="row"><div class="label">Key risks</div><div class="value">A weaker employment environment could reduce demand for uniforms and related services. Longer-term shifts toward hybrid work could also moderate growth in some service categories.</div></div>
+          </div>
+        </article>
+
+        <article class="card" id="LLY">
+          <div class="card-header"><h2>LLY - Eli Lilly</h2><span class="ticker-chip">LLY</span></div>
+          <div class="card-body">
+            <div class="metrics">
+              <div class="metric"><div class="metric-title">Sector</div><div class="metric-value">Healthcare</div></div>
+              <div class="metric"><div class="metric-title">Price</div><div class="metric-value">$1,161.32</div></div>
+              <div class="metric"><div class="metric-title">Market cap</div><div class="metric-value">$1.09T</div></div>
+              <div class="metric"><div class="metric-title">YTD performance</div><div class="metric-value positive">+8.1%</div></div>
+            </div>
+            <div class="row"><div class="label">NTM valuation</div><div class="value">NTM P/E 31.8x; NTM EV/EBITDA 29.8x; NTM EV/Rev 11.7x.</div></div>
+            <div class="row"><div class="label">What they do</div><div class="value">Eli Lilly develops and sells prescription medicines across diabetes, obesity, oncology, immunology, and neuroscience.</div></div>
+            <div class="row"><div class="label">How they make money</div><div class="value">Revenue is driven primarily by blockbuster products including Mounjaro, Zepbound, Verzenio, Jardiance, and other branded medicines.</div></div>
+            <div class="row important"><div class="label">WB research summary</div><div class="value">Internal William Blair email notes the firm does not cover LLY but has suggested it for the Guided Portfolio. A forwarded O'Neil note frames Lilly as the leading GLP-1 franchise, citing Mounjaro/Zepbound momentum, Foundayo/orforglipron as an unrestricted oral GLP-1 opportunity, retatrutide as a next-generation efficacy catalyst, and Q1 2026 revenue/EPS guidance raises.</div></div>
+            <div class="row"><div class="label">Recent events</div><div class="value">The company remains a central player in the obesity-drug market and has continued to benefit from strong demand for its metabolic-health franchise. Recent headlines have also focused on competitive and legal disputes within the GLP-1 market.</div></div>
+            <div class="row"><div class="label">Potential catalysts</div><div class="value">Q2 earnings on August 5, 2026, along with updates on obesity-drug demand, manufacturing capacity, and clinical trial results, could affect investor sentiment. Regulatory developments and pipeline data releases are also important watch items.</div></div>
+            <div class="row"><div class="label">Key risks</div><div class="value">Competition in obesity and diabetes treatments is intensifying. Manufacturing constraints, pricing pressure, regulatory setbacks, or disappointing clinical data could impact growth expectations.</div></div>
+          </div>
+        </article>
+      </div>
+
+      <aside>
+        <h3>How to use this</h3>
+        <p>Use the tabs to jump between company cards. Each card is designed for quick meeting prep and simple client-conversation context.</p>
+        <ul>
+          <li>No buy/sell recommendations are included.</li>
+          <li>Market data and valuation figures should be verified before external use.</li>
+          <li>WB research bullets are paraphrased summaries for internal discussion only.</li>
+        </ul>
+        <div class="footer-note">
+          Internal meeting-prep draft. Not investment advice, a research report, or a client deliverable.
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const buttons = document.querySelectorAll('.tab-button');
+    const cards = document.querySelectorAll('.card');
+
+    function activateTab(tabId) {
+      buttons.forEach(button => {
+        button.classList.toggle('active', button.dataset.tab === tabId);
+        button.setAttribute('aria-selected', button.dataset.tab === tabId ? 'true' : 'false');
+      });
+      cards.forEach(card => card.classList.toggle('active', card.id === tabId));
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => activateTab(button.dataset.tab));
+    });
+
+    document.addEventListener('keydown', event => {
+      const activeIndex = Array.from(buttons).findIndex(button => button.classList.contains('active'));
+      if (event.key === 'ArrowRight') {
+        const next = buttons[(activeIndex + 1) % buttons.length];
+        next.focus();
+        activateTab(next.dataset.tab);
+      }
+      if (event.key === 'ArrowLeft') {
+        const prev = buttons[(activeIndex - 1 + buttons.length) % buttons.length];
+        prev.focus();
+        activateTab(prev.dataset.tab);
+      }
+    });
+  </script>
+</body>
+</html>
